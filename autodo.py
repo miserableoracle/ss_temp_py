@@ -16,7 +16,6 @@ steem = Steem(wif=steemPostingKey)
 replyString = ""
 '''
 def TransBuilder(comment, author, cbody):
-		global wif
 	#try:
 		tx = TransactionBuilder()
 		tx.appendOps(Comment(
