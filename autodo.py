@@ -126,8 +126,8 @@ if __name__ == "__main__":
 							replyid = "@"+comment["author"]+"/"+comment["permlink"]
 							#post = Post(Steem(), replyid)
 							#post.reply('', replyString, author='reminderbot', reply_identifier=replyid)
-							tx = TransactionBuilder()
-							tx.appendWif(wif)
+							#tx = TransactionBuilder()
+							#tx.appendWif(wif)
 							comment.reply(replyString, '', author=author_m, meta=None)
 							'''if TransBuilder(comment, 'reminderbot', replyString):
 								print("Posted!!")
