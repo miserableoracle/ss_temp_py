@@ -1,3 +1,3 @@
-# ss_temp_py
+# SneakPeek Bot for Steemit
 
 Under development
