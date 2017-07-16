@@ -1,1 +1,1 @@
-worker: python autodo.py
+worker: python autobot.py
