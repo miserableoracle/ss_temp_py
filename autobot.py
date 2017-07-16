@@ -104,7 +104,7 @@ def printposts(cat):
 			firstpost = trendingposts[i]
 			postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
 			print("https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
-			replyString += "<br/><b>#"+str(i)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
+			replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
 			if i == 3:
 				break
 	else:
@@ -151,10 +151,16 @@ if __name__ == "__main__":
 						print("Received Category(Tag): %s" % cat)
 						replyString += "<h2> Here's a sneak peek of #"+cat+" tagged posts</h2>"
 						printposts(cat)
+						# For testing purposes
 						if (comment["author"] == debug_acc) and (flag == 0):
+						# Deploy
+						#if (flag == 0):
 							replyid = "@"+comment["author"]+"/"+comment["permlink"]
 							comment.reply(replyString, '', author=author_m, meta=None)
+						# For testing purposes	
 						elif flag == 1:
+						# Deploy
+						#else:
 							print("No posts found in mentioned tag. Skip the comment.")
 						else:
 							print("Out of testing phase")
