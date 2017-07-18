@@ -179,6 +179,10 @@ if __name__ == "__main__":
 					else:
 						#newpid = os.fork()
 						print("CAT (Func-MAIN): %s" % cat)
+						# Threading is required in order to make sure
+						# that main loop doesn't miss a single block on the blockchain 
+						# while processing the current match. 
+						# Time processing traces added
 						nthread = printposts(cat, comment)
 						nthread.start()	
 		except:
