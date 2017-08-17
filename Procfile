@@ -1,1 +1,1 @@
-worker: python autobot.py
+worker: python autobot.py Author="sneakpeekbot" DebugAuthor="miserableoracle"
