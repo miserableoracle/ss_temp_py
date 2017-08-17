@@ -18,10 +18,11 @@ import os
 # **************************************
 
 
-#steemPostingKey = os.environ.get('PostKey')
+steemPostingKey = os.environ.get('PostKey')
 author_m = os.environ.get('Author')
 #steem = Steem(wif=steemPostingKey)
-steem = Steem(wif="5K1YAMfF8PfLmoYpFzPGLqVjgqVrYEhVXSV5s1iERDUopi33Jiv")
+#steem = Steem(wif="5K1YAMfF8PfLmoYpFzPGLqVjgqVrYEhVXSV5s1iERDUopi33Jiv")
+steem = Steem(keys = steemPostingKey)
 # for debugging with single poster on steemit
 debug_acc = os.environ.get('DebugAuthor')
 replyString = ""
