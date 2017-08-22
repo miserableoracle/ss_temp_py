@@ -95,7 +95,7 @@ class printposts(threading.Thread):
 		replyString += "<center><em>"+strList[initStr]+"</em></center>"
 	
 		print("Received Category(Tag): %s" % cat)
-		replyString += "<h2> Here's a sneak peek of #"+cat+" posts</h2>"
+		replyString += "<h2> Hello @"+self.comment_t['author']+"Here's a sneak peek of #"+self.cat_c+" posts</h2>"
 
 		i = 0
 
