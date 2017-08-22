@@ -149,7 +149,7 @@ if __name__ == "__main__":
 						continue
 					else:
 						print("Received Category(Tag): %s" % cat)
-						replyString += "<h2> Here's a sneak peek of #"+cat+" tagged posts</h2>"
+						replyString += "<h2>Hello @"+comment['author']+" Here's a sneak peek of #"+cat+" tagged posts</h2>"
 						printposts(cat)
 						# For testing purposes
 						if (comment["author"] == debug_acc) and (flag == 0):
@@ -166,4 +166,4 @@ if __name__ == "__main__":
 							print("Out of testing phase")
 		except:
 			print("Unexpected error (Sleep for 3) : ", sys.exc_info()[0])
-			time.sleep(3)
+			time.sleep(2)
