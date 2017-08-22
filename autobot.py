@@ -165,7 +165,8 @@ if __name__ == "__main__":
 		# Certain posts are receiving "PostDoesNotExist" exeption. Yet to find out the reason.
 		try: 
 			for comment in steem.stream_comments():
-				print("NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
+				#Testing phase only print
+				#print("NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
 				match = re.search(r'(?i)(#)(\w+)[\w-]+', comment["body"])
 				if match is None:
 					continue
