@@ -205,5 +205,5 @@ if __name__ == "__main__":
 						nthread = printposts(cat, comment)
 						nthread.start()	
 		except:
-			print("Unexpected error (Sleep for 3 (not sleeping temp)) : ", sys.exc_info()[0])
-			#time.sleep(3)
+			print("Unexpected error (Sleep for 2) : ", sys.exc_info()[0])
+			time.sleep(2)
