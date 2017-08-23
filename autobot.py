@@ -182,7 +182,7 @@ if __name__ == "__main__":
 					# Check if the comment is main post, if TRUE ignore the rest of the part and go to next iteration
 					if (comment.is_main_post()):
 						print("[Future] MATCHED: https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
-						print("[Normal Process] This is a main post. SneakPeek works on comments only (as of now)")
+						print("[Future] This is a main post. SneakPeek works on comments only (as of now)")
 						continue
 					
 					print("[Normal Process] MATCHED: https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
@@ -221,6 +221,6 @@ if __name__ == "__main__":
 			
 # Filter tags for Alerts Settings
 # [Normal Process]
-# [All Tracec]
+# [All Trace]
 # [Future]
 # [Exception]
