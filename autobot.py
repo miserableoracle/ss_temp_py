@@ -216,8 +216,8 @@ if __name__ == "__main__":
 			print("[Exception] Type : ", exc_type)
 			print("[Exception] Value : ", exc_value)
 			#Enough information present in Type and Value, incase further information is required then use following
-			#print("[Exception] Traceback : ")
-			#traceback.print_tb(exc_traceback)
+			print("[Exception] Traceback : ")
+			traceback.print_tb(exc_traceback)
 			
 # Filter tags for Alerts Settings
 # [Normal Process]
