@@ -80,12 +80,12 @@ class printposts(threading.Thread):
 
 		i = 0
 
-		if (self.section == "new" and len(createdposts) >= 1):
+		if (self.section == "new") and (len(createdposts) >= 1):
 			replyString += "<h3>Top "+str(len(createdposts))+" Recently Created Posts</h3>"
 			for i in range(0, len(createdposts)):
 				firstpost = createdposts[i]
 				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
-				print("[Normal Process] https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
+				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
 				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
 				if i == 9:
 					break
@@ -95,12 +95,12 @@ class printposts(threading.Thread):
 	
 		#replyString += "<hr/>"
 	
-		if (self.section == "hot" and len(hotposts) >= 1):
+		if (self.section == "hot") and (len(hotposts) >= 1):
 			replyString += "<h3>Top "+str(len(hotposts))+" Hot Posts</h3>"
 			for i in range(0, len(hotposts)):
 				firstpost = hotposts[i]
 				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
-				print("[Normal Process] https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
+				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
 				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
 				if i == 9:
 					break
@@ -110,7 +110,7 @@ class printposts(threading.Thread):
 	
 		#replyString += "<hr/>"
 		
-		if (self.section == "trending" and len(trendingposts) >= 1):
+		if (self.section == "trending") and (len(trendingposts) >= 1):
 			replyString += "<h4>Top "+str(len(trendingposts))+" Trending Posts</h4>"
 			for i in range(0, len(trendingposts)):
 				firstpost = trendingposts[i]
@@ -124,7 +124,7 @@ class printposts(threading.Thread):
 			flag = 1
 		
 		'''
-		if (self.section == "promoted" and len(promotedposts) >= 1):
+		if (self.section == "promoted") and (len(promotedposts) >= 1):
 			replyString += "<h4>Top "+str(len(promotedposts))+" Promoted Posts</h4>"
 			for i in range(0, len(promotedposts)):
 				firstpost = promotedposts[i]
