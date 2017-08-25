@@ -1,11 +1,11 @@
+# SneakPeek Bot v1.1 (Testing Phase)
+
 # **************************************
 # ************* IMPORTS ****************
 # **************************************
 
 from steem import Steem
 from steem.blockchain import Blockchain
-# SneakPeek Bot v1.1 (Testing Phase)
-
 from steem.post import Post
 from steem.steemd import Steemd
 from steem.transactionbuilder import TransactionBuilder
