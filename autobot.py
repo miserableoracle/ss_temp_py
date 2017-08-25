@@ -1,4 +1,5 @@
 # SneakPeek Bot v1.1 (Testing Phase)
+# Problem 1: 'promoted' category not present in 'sort' param of 'get_post' function
 
 # **************************************
 # ************* IMPORTS ****************
@@ -58,7 +59,7 @@ class printposts(threading.Thread):
 		createdposts = steem.get_posts(limit=self.no_of_post, sort="created", category=self.cat_c)
 		hotposts = steem.get_posts(limit=self.no_of_post, sort="hot", category=self.cat_c) 
 		trendingposts = steem.get_posts(limit=self.no_of_post, sort="trending", category=self.cat_c)
-		promotedposts = steem.get_posts(limit=self.no_of_post, sort="promoted", category=self.cat_c)
+		#promotedposts = steem.get_posts(limit=self.no_of_post, sort="promoted", category=self.cat_c)
 		
 		print("[Normal Process] CAT (prepReply): %s | Section (prepReply): %s | No of Posts (prepReply): %d" % (self.cat_c, self.section, self.no_of_post))
 		replyString = ""
@@ -122,6 +123,7 @@ class printposts(threading.Thread):
 			print("[Normal Process] No 'Trending' posts in given tag")
 			flag = 1
 		
+		'''
 		if (self.section == "promoted" and len(promotedposts) >= 1):
 			replyString += "<h4>Top "+str(len(promotedposts))+" Promoted Posts</h4>"
 			for i in range(0, len(promotedposts)):
@@ -134,7 +136,8 @@ class printposts(threading.Thread):
 		else:
 			print("[Normal Process] No 'Promoted' posts in given tag")
 			flag = 1
-			
+		'''
+		
 		replyString += "<hr/>"
 		replyString += "<sub> I'm a bot, beep boop | Inspired By <a href='https://www.reddit.com/user/sneakpeekbot/' target='_blank'>Reddit SneakPeekBot</a> | Recreated By @miserableoracle"
 	
@@ -160,7 +163,8 @@ if __name__ == "__main__":
 			for comment in steem.stream_comments():
 				#Testing phase only print
 				#print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"])) [_]*
-				match = re.search(r'(?i)(#)(\w+)[\w-]+(?: promoted| new| trending| hot)*(?: [0-9])*', comment["body"])
+				#match = re.search(r'(?i)(#)(\w+)[\w-]+(?: promoted| new| trending| hot)*(?: [0-9])*', comment["body"])
+				match = re.search(r'(?i)(#)(\w+)[\w-]+(?: new| trending| hot)*(?: [0-9])*', comment["body"])
 				if match is None:
 					continue
 				else:
@@ -197,8 +201,6 @@ if __name__ == "__main__":
 						else:
 							no_of_post_int = 3
 
-					print("[Debug] Section: %s", section)
-					print("[Debug] No. of Posts: %d", no_of_post_int)
 					if not cat:
 						continue
 					else:
@@ -214,7 +216,9 @@ if __name__ == "__main__":
 						if (t_ignore == 1):
 							continue
 						#newpid = os.fork()
-						print("[Normal Process] CAT (Func-MAIN()): %s" % cat)
+						print("[Debug] Category: %s" % cat)
+						print("[Debug] Section: %s" % section)
+						print("[Debug] No. of Posts: %d" % no_of_post_int)
 						# Threading is required in order to make sure
 						# that main loop doesn't miss a single block on the blockchain 
 						# while processing the current match. 
