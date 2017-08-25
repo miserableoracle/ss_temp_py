@@ -4,6 +4,8 @@
 
 from steem import Steem
 from steem.blockchain import Blockchain
+# SneakPeek Bot v1.1 (Testing Phase)
+
 from steem.post import Post
 from steem.steemd import Steemd
 from steem.transactionbuilder import TransactionBuilder
@@ -22,7 +24,6 @@ import sys, traceback, logging
 steemPostingKey = os.environ.get('PostKey')
 author_m = os.environ.get('Author')
 #steem = Steem(wif=steemPostingKey)
-#steem = Steem(wif="5K1YAMfF8PfLmoYpFzPGLqVjgqVrYEhVXSV5s1iERDUopi33Jiv")
 steem = Steem(keys = steemPostingKey)
 # for debugging with single poster on steemit
 debug_acc = os.environ.get('DebugAuthor')
@@ -34,40 +35,16 @@ blck = Blockchain()
 # ************* FUNCTIONS **************
 # **************************************
 
-#If you wannt to manually build the transaction and broadcast onto the network, use below function.
-'''
-def TransBuilder(comment, author, cbody):
-	#try:
-		tx = TransactionBuilder()
-		tx.appendOps(Comment(
-			**{"parent_author": comment["author"],
-				"parent_permlink": comment["permlink"],
-				"author": author,
-				"permlink": comment["permlink"],
-				"title": "",
-				"body": cbody,
-				"json_metadata": ""}
-		))
-		tx.appendWif(wif)
-		tx.appendSigner("reminderbot", "posting")
-		tx = tx.sign()
-		tx = TransactionBuilder.json(tx)
-		tx.broadcast()
-	#except:
-	#	print("[Exception] Unexpected error (Sleep for 3) : ", sys.exc_info()[0])
-	#	return False
-	#else:
-		return True
-'''	
-
 #This function will get all the posts from given category(tag) and print top 3 posts from "created", "hot", and "trending" sections of that category(tag)
 #Argument: Category str
 
 class printposts(threading.Thread):
-	def __init__(self, cat, comment_t):
+	def __init__(self, cat, comment_t, section, no_of_post):
 		threading.Thread.__init__(self)
 		self.cat_c = cat
 		self.comment = comment_t
+		self.section = section
+		self.no_of_post = no_of_post
 		flag = 0
 		global steem
 		global debug_acc
@@ -78,11 +55,12 @@ class printposts(threading.Thread):
 
 	def prepReply(self):
 		start_time = time.time()
-		createdposts = steem.get_posts(limit=3, sort="created", category=self.cat_c)
-		hotposts = steem.get_posts(limit=3, sort="hot", category=self.cat_c) 
-		trendingposts = steem.get_posts(limit=3, sort="trending", category=self.cat_c)
+		createdposts = steem.get_posts(limit=self.no_of_post, sort="created", category=self.cat_c)
+		hotposts = steem.get_posts(limit=self.no_of_post, sort="hot", category=self.cat_c) 
+		trendingposts = steem.get_posts(limit=self.no_of_post, sort="trending", category=self.cat_c)
+		promotedposts = steem.get_posts(limit=self.no_of_post, sort="promoted", category=self.cat_c)
 		
-		print("[Normal Process] CAT (prepReply): %s" % self.cat_c)
+		print("[Normal Process] CAT (prepReply): %s | Section (prepReply): %s | No of Posts (prepReply): %d" % (self.cat_c, self.section, self.no_of_post))
 		replyString = ""
 		flag = 0
 		strList = ["And Roger was crazy with his bots and everything.",
@@ -97,56 +75,66 @@ class printposts(threading.Thread):
 		replyString += "<center><em>"+strList[initStr]+"</em></center>"
 	
 		print("[Normal Process] Received Category(Tag): %s" % cat)
-		replyString += "<h3> Hello @"+self.comment['author']+" | Here's a sneak peek of #"+self.cat_c+" posts</h3>"
+		replyString += "<h3> Hello @"+self.comment['author']+" | Here's a sneak peek of #"+self.cat_c+" posts in "+self.section+" section.</h3>"
 
 		i = 0
-		'''	********************************************************************************
-		# For initial release, use only trending posts display. Reduces the length of reply.
-		************************************************************************************
-		if len(createdposts) >= 1:
+
+		if (self.section == "new" && len(createdposts) >= 1):
 			replyString += "<h3>Top "+str(len(createdposts))+" Recently Created Posts</h3>"
 			for i in range(0, len(createdposts)):
 				firstpost = createdposts[i]
 				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
 				print("[Normal Process] https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
 				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
-				if i == 3:
+				if i == 9:
 					break
 		else:
-			print("[Normal Process] No posts in given tag")
+			print("[Normal Process] No 'Created' posts in given tag")
 			flag = 1
 	
-		replyString += "<hr/>"
+		#replyString += "<hr/>"
 	
-		if len(hotposts) >= 1:
+		if (self.section == "hot" && len(hotposts) >= 1):
 			replyString += "<h3>Top "+str(len(hotposts))+" Hot Posts</h3>"
 			for i in range(0, len(hotposts)):
 				firstpost = hotposts[i]
 				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
 				print("[Normal Process] https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
 				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
-				if i == 3:
+				if i == 9:
 					break
 		else:
-			print("[Normal Process] No posts in given tag")
+			print("[Normal Process] No 'Hot' posts in given tag")
 			flag = 1
 	
-		replyString += "<hr/>"
-		******************************************************************************** '''
+		#replyString += "<hr/>"
 		
-		if len(trendingposts) >= 1:
+		if (self.section == "trending" && len(trendingposts) >= 1):
 			replyString += "<h4>Top "+str(len(trendingposts))+" Trending Posts</h4>"
 			for i in range(0, len(trendingposts)):
 				firstpost = trendingposts[i]
 				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
 				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
 				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
-				if i == 3:
+				if i == 9:
 					break
 		else:
-			print("[Normal Process] No posts in given tag")
+			print("[Normal Process] No 'Trending' posts in given tag")
 			flag = 1
 		
+		if (self.section == "promoted" && len(promotedposts) >= 1):
+			replyString += "<h4>Top "+str(len(promotedposts))+" Promoted Posts</h4>"
+			for i in range(0, len(promotedposts)):
+				firstpost = promotedposts[i]
+				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
+				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
+				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
+				if i == 9:
+					break
+		else:
+			print("[Normal Process] No 'Promoted' posts in given tag")
+			flag = 1
+			
 		replyString += "<hr/>"
 		replyString += "<sub> I'm a bot, beep boop | Inspired By <a href='https://www.reddit.com/user/sneakpeekbot/' target='_blank'>Reddit SneakPeekBot</a> | Recreated By @miserableoracle"
 	
@@ -156,7 +144,7 @@ class printposts(threading.Thread):
 		elif (flag == 1):
 			print("[Normal Process] No posts found in mentioned tag. Skip the comment.")
 		else:
-			print("[Normal Process] Out of testing phase")
+			print("[Normal Process] Out of testing phase. Comment is not the Debug Account.")
 
 		print("[Normal Process] PROCESS FINISH TIME: %s" % (time.time() - start_time))
 		#os._exit(0)
@@ -171,8 +159,8 @@ if __name__ == "__main__":
 		try: 
 			for comment in steem.stream_comments():
 				#Testing phase only print
-				#print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
-				match = re.search(r'(?i)(#)(\w+)[\w-]+', comment["body"])
+				#print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"])) [_]*
+				match = re.search(r'(?i)(#)(\w+)[\w-]+(?: promoted| new| trending| hot)*(?: [0-9])*', comment["body"])
 				if match is None:
 					continue
 				else:
@@ -181,13 +169,36 @@ if __name__ == "__main__":
 						continue
 					# Check if the comment is main post, if TRUE ignore the rest of the part and go to next iteration
 					if (comment.is_main_post()):
-						print("[Future] MATCHED: https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
-						print("[Future] This is a main post. SneakPeek works on comments only (as of now)")
+						print("[Future] Main Post: https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
 						continue
 					
 					print("[Normal Process] MATCHED: https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
+					
+					# Matched group will be split, checking for provided arguments
+					# Arguments - #Arg1 Arg2 Arg3
+					# Arg1 is Category | Arg2 (default - trending) is promoted OR hot OR new OR trending | Arg3 (default - 3) is number between 0 and 9
 					temp = match.group(0)
-					cat = temp.replace("#", "")
+					temp2 = temp.split()
+					cat = temp2[0].replace("#", "")
+					if(len(temp2) == 1):
+						section = "trending"
+						no_of_post_int = 3
+					if(len(temp2) == 2):
+						section = temp2[1]
+						no_of_post_int = 3
+					if(len(temp2) == 3):
+						section = temp2[1]
+						no_of_post = temp2[2]
+						if(no_of_post.isdigit()):
+							no_of_post_int = int(no_of_post)
+							if(no_of_post_int == 0):
+								print("[Normal Process] Argument 3 is Zero. Changing it to Max(5)")
+								no_of_post_int = 3
+						else:
+							no_of_post_int = 3
+
+					print("[Debug] Section: %s", section)
+					print("[Debug] No. of Posts: %d", no_of_post_int)
 					if not cat:
 						continue
 					else:
@@ -208,7 +219,7 @@ if __name__ == "__main__":
 						# that main loop doesn't miss a single block on the blockchain 
 						# while processing the current match. 
 						# Time processing traces added
-						nthread = printposts(cat, comment)
+						nthread = printposts(cat, comment, section, no_of_post_int)
 						nthread.start()	
 		except:
 			print("[Exception] Error Occurred @ Block No: ", blck.get_current_block_num())
@@ -224,3 +235,4 @@ if __name__ == "__main__":
 # [All Trace]
 # [Future]
 # [Exception]
+# [Debug]
