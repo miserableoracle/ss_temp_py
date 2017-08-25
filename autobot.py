@@ -80,62 +80,73 @@ class printposts(threading.Thread):
 
 		i = 0
 
-		if (self.section == "new") and (len(createdposts) >= 1):
-			replyString += "<h3>Top "+str(len(createdposts))+" Recently Created Posts</h3>"
-			for i in range(0, len(createdposts)):
-				firstpost = createdposts[i]
-				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
-				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
-				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
-				if i == 9:
-					break
+		if (self.section == "new"):
+			if(len(createdposts) >= 1):
+				replyString += "<h3>Top "+str(len(createdposts))+" Recently Created Posts</h3>"
+				for i in range(0, len(createdposts)):
+					firstpost = createdposts[i]
+					postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
+					print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
+					replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
+					if i == 9:
+						break
+			else:
+				print("[Normal Process] No 'Created' posts in given tag")
+				flag = 1
 		else:
-			print("[Normal Process] No 'Created' posts in given tag")
-			flag = 1
+			print("[Normal Process] Arg2 is not 'new'")
 	
 		#replyString += "<hr/>"
 	
-		if (self.section == "hot") and (len(hotposts) >= 1):
-			replyString += "<h3>Top "+str(len(hotposts))+" Hot Posts</h3>"
-			for i in range(0, len(hotposts)):
-				firstpost = hotposts[i]
-				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
-				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
-				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
-				if i == 9:
-					break
+		if (self.section == "hot"):
+			if(len(hotposts) >= 1):
+				replyString += "<h3>Top "+str(len(hotposts))+" Hot Posts</h3>"
+				for i in range(0, len(hotposts)):
+					firstpost = hotposts[i]
+					postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
+					print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
+					replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
+					if i == 9:
+						break
+			else:
+				print("[Normal Process] No 'Hot' posts in given tag")
+				flag = 1
 		else:
-			print("[Normal Process] No 'Hot' posts in given tag")
-			flag = 1
+			print("[Normal Process] Arg2 is not 'hot'")
 	
 		#replyString += "<hr/>"
 		
-		if (self.section == "trending") and (len(trendingposts) >= 1):
-			replyString += "<h4>Top "+str(len(trendingposts))+" Trending Posts</h4>"
-			for i in range(0, len(trendingposts)):
-				firstpost = trendingposts[i]
-				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
-				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
-				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
-				if i == 9:
-					break
+		if (self.section == "trending"):
+			if(len(trendingposts) >= 1):
+				replyString += "<h4>Top "+str(len(trendingposts))+" Trending Posts</h4>"
+				for i in range(0, len(trendingposts)):
+					firstpost = trendingposts[i]
+					postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
+					print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
+					replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
+					if i == 9:
+						break
+			else:
+				print("[Normal Process] No 'Trending' posts in given tag")
+				flag = 1
 		else:
-			print("[Normal Process] No 'Trending' posts in given tag")
-			flag = 1
-		
+			print("[Normal Process] Arg2 is not 'trending'")
 		'''
-		if (self.section == "promoted") and (len(promotedposts) >= 1):
-			replyString += "<h4>Top "+str(len(promotedposts))+" Promoted Posts</h4>"
-			for i in range(0, len(promotedposts)):
-				firstpost = promotedposts[i]
-				postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
-				print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
-				replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
-				if i == 9:
-					break
+		if (self.section == "promoted"):
+			if(len(promotedposts) >= 1):
+				replyString += "<h4>Top "+str(len(promotedposts))+" Promoted Posts</h4>"
+				for i in range(0, len(promotedposts)):
+					firstpost = promotedposts[i]
+					postLink = "https://steemit.com/@"+firstpost["author"]+"/"+firstpost["permlink"]
+					print("[Normal Process] Post in category: https://steemit.com/@%s/%s" % (firstpost["author"], firstpost["permlink"]))
+					replyString += "<br/><b>#"+str(i+1)+".</b> <a href='"+postLink+"' target='_blank'>"+firstpost["title"]+"</a> | by @"+firstpost["author"]
+					if i == 9:
+						break
+			else:
+				print("[Normal Process] No 'Promoted' posts in given tag")
+				flag = 1
 		else:
-			print("[Normal Process] No 'Promoted' posts in given tag")
-			flag = 1
+			print("[Normal Process] Arg2 is not 'Promoted'")
 		'''
 		
 		replyString += "<hr/>"
