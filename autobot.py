@@ -79,7 +79,7 @@ class printposts(threading.Thread):
 
 		i = 0
 
-		if (self.section == "new" && len(createdposts) >= 1):
+		if (self.section == "new" and len(createdposts) >= 1):
 			replyString += "<h3>Top "+str(len(createdposts))+" Recently Created Posts</h3>"
 			for i in range(0, len(createdposts)):
 				firstpost = createdposts[i]
@@ -94,7 +94,7 @@ class printposts(threading.Thread):
 	
 		#replyString += "<hr/>"
 	
-		if (self.section == "hot" && len(hotposts) >= 1):
+		if (self.section == "hot" and len(hotposts) >= 1):
 			replyString += "<h3>Top "+str(len(hotposts))+" Hot Posts</h3>"
 			for i in range(0, len(hotposts)):
 				firstpost = hotposts[i]
@@ -109,7 +109,7 @@ class printposts(threading.Thread):
 	
 		#replyString += "<hr/>"
 		
-		if (self.section == "trending" && len(trendingposts) >= 1):
+		if (self.section == "trending" and len(trendingposts) >= 1):
 			replyString += "<h4>Top "+str(len(trendingposts))+" Trending Posts</h4>"
 			for i in range(0, len(trendingposts)):
 				firstpost = trendingposts[i]
@@ -122,7 +122,7 @@ class printposts(threading.Thread):
 			print("[Normal Process] No 'Trending' posts in given tag")
 			flag = 1
 		
-		if (self.section == "promoted" && len(promotedposts) >= 1):
+		if (self.section == "promoted" and len(promotedposts) >= 1):
 			replyString += "<h4>Top "+str(len(promotedposts))+" Promoted Posts</h4>"
 			for i in range(0, len(promotedposts)):
 				firstpost = promotedposts[i]
