@@ -22,7 +22,6 @@ import sys, traceback, logging
 steemPostingKey = os.environ.get('PostKey')
 author_m = os.environ.get('Author')
 #steem = Steem(wif=steemPostingKey)
-#steem = Steem(wif="5K1YAMfF8PfLmoYpFzPGLqVjgqVrYEhVXSV5s1iERDUopi33Jiv")
 steem = Steem(keys = steemPostingKey)
 # for debugging with single poster on steemit
 debug_acc = os.environ.get('DebugAuthor')
@@ -34,39 +33,13 @@ blck = Blockchain()
 # ************* FUNCTIONS **************
 # **************************************
 
-#If you wannt to manually build the transaction and broadcast onto the network, use below function.
-'''
-def TransBuilder(comment, author, cbody):
-	#try:
-		tx = TransactionBuilder()
-		tx.appendOps(Comment(
-			**{"parent_author": comment["author"],
-				"parent_permlink": comment["permlink"],
-				"author": author,
-				"permlink": comment["permlink"],
-				"title": "",
-				"body": cbody,
-				"json_metadata": ""}
-		))
-		tx.appendWif(wif)
-		tx.appendSigner("reminderbot", "posting")
-		tx = tx.sign()
-		tx = TransactionBuilder.json(tx)
-		tx.broadcast()
-	#except:
-	#	print("[Exception] Unexpected error (Sleep for 3) : ", sys.exc_info()[0])
-	#	return False
-	#else:
-		return True
-'''	
-
 #This function will get all the posts from given category(tag) and print top 3 posts from "created", "hot", and "trending" sections of that category(tag)
 #Argument: Category str
 
 class printposts(threading.Thread):
-	def __init__(self, cat, comment_t):
+	def __init__(self, cat_p, comment_t):
 		threading.Thread.__init__(self)
-		self.cat_c = cat
+		self.cat_c = cat_p
 		self.comment = comment_t
 		flag = 0
 		global steem
@@ -96,7 +69,7 @@ class printposts(threading.Thread):
 		initStr = random.randint(0, 6)
 		replyString += "<center><em>"+strList[initStr]+"</em></center>"
 	
-		print("[Normal Process] Received Category(Tag): %s" % cat)
+		print("[Normal Process] Received Category(Tag): %s" % self.cat_c)
 		replyString += "<h3> Hello @"+self.comment['author']+" | Here's a sneak peek of #"+self.cat_c+" posts</h3>"
 
 		i = 0
@@ -159,7 +132,7 @@ class printposts(threading.Thread):
 			print("[Normal Process] Out of testing phase")
 
 		print("[Normal Process] PROCESS FINISH TIME: %s" % (time.time() - start_time))
-		#os._exit(0)
+		
 # **************************************
 # ************ MAIN FUNC ***************
 # **************************************
