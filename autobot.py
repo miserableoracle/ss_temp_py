@@ -154,6 +154,7 @@ if __name__ == "__main__":
 					if (comment["author"] == author_m):
 						continue
 					if comment["author"] in blacklisted:
+						print("[Normal Process] Blacklisted User. Skip the Comment.")
 						continue
 					# Check if the comment is main post, if TRUE ignore the rest of the part and go to next iteration
 					if (comment.is_main_post()):
