@@ -21,6 +21,7 @@ import sys, traceback, logging
 
 steemPostingKey = os.environ.get('PostKey')
 author_m = os.environ.get('Author')
+blacklisted = set(['cheetah', 'goldenarms'])
 #steem = Steem(wif=steemPostingKey)
 steem = Steem(keys = steemPostingKey)
 # for debugging with single poster on steemit
@@ -151,6 +152,8 @@ if __name__ == "__main__":
 				else:
 					# Check if the author of the post is sneakpeek bot, if TRUE ignore the rest of the part and go to next iteration
 					if (comment["author"] == author_m):
+						continue
+					if comment["author"] in blacklisted:
 						continue
 					# Check if the comment is main post, if TRUE ignore the rest of the part and go to next iteration
 					if (comment.is_main_post()):
