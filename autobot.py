@@ -21,7 +21,6 @@ import sys, traceback, logging
 
 steemPostingKey = os.environ.get('PostKey')
 author_m = os.environ.get('Author')
-blacklisted = set(['cheetah', 'goldenarms'])
 #steem = Steem(wif=steemPostingKey)
 steem = Steem(keys = steemPostingKey)
 # for debugging with single poster on steemit
@@ -124,7 +123,7 @@ class printposts(threading.Thread):
 		replyString += "<hr/>"
 		replyString += "<sub> I'm a bot, beep boop | <a href='https://steemit.com/steemit/@miserableoracle/welcoming-the-sneakpeek-bot' target='_blank'>Here's my Introduction</a> | Inspired By <a href='https://www.reddit.com/user/sneakpeekbot/' target='_blank'>Reddit SneakPeekBot</a> | Recreated By @miserableoracle"
 	
-		if (self.comment["author"] == debug_acc) and (flag == 0):
+		if (flag == 0): #(self.comment["author"] == debug_acc) and (flag == 0):
 			print("[Normal Process] REPLY IN PROGRESS")
 			self.comment.reply(replyString, '', author=author_m, meta=None)
 		elif (flag == 1):
@@ -146,15 +145,12 @@ if __name__ == "__main__":
 			for comment in steem.stream_comments():
 				#Testing phase only print
 				#print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
-				match = re.search(r'(?i)(#)(\w+)[\w-]+', comment["body"])
+				match = re.search(r'(?i)(!*)sneakpeek(!*) (?i)(#)(\w+)[\w-]+', comment["body"])
 				if match is None:
 					continue
 				else:
 					# Check if the author of the post is sneakpeek bot, if TRUE ignore the rest of the part and go to next iteration
 					if (comment["author"] == author_m):
-						continue
-					if comment["author"] in blacklisted:
-						print("[Normal Process] Blacklisted User. Skip the Comment.")
 						continue
 					# Check if the comment is main post, if TRUE ignore the rest of the part and go to next iteration
 					if (comment.is_main_post()):
@@ -164,7 +160,8 @@ if __name__ == "__main__":
 					
 					print("[Normal Process] MATCHED: https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
 					temp = match.group(0)
-					cat = temp.replace("#", "")
+					temp2 = temp.split() #match will consist of (!*)sneakpeek(!*) as group 0 and #category as group 1
+					cat = temp2[1].replace("#", "")
 					if not cat:
 						continue
 					else:
