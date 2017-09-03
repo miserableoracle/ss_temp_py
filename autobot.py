@@ -123,7 +123,7 @@ class printposts(threading.Thread):
 		replyString += "<hr/>"
 		replyString += "<sub> I'm a bot, beep boop | <a href='https://steemit.com/steemit/@miserableoracle/welcoming-the-sneakpeek-bot' target='_blank'>Here's my Introduction</a> | Inspired By <a href='https://www.reddit.com/user/sneakpeekbot/' target='_blank'>Reddit SneakPeekBot</a> | Recreated By @miserableoracle"
 	
-		if (flag == 0): #(self.comment["author"] == debug_acc) and (flag == 0):
+		if (self.comment["author"] == debug_acc) and (flag == 0): #(flag == 0):
 			print("[Normal Process] REPLY IN PROGRESS")
 			self.comment.reply(replyString, '', author=author_m, meta=None)
 		elif (flag == 1):
