@@ -70,7 +70,7 @@ class printposts(threading.Thread):
 		replyString += "<center><em>"+strList[initStr]+"</em></center>"
 	
 		print("[Normal Process] Received Category(Tag): %s" % self.cat_c)
-		replyString += "<h3> Hello @"+self.comment['author']+" | Here's a sneak peek of #"+self.cat_c+" posts</h3>"
+		replyString += "<h3> Hello @"+self.comment['author']+" | You have summoned me, I shall serve your requirements. | Here's a sneak peek of #"+self.cat_c+" posts</h3>"
 
 		i = 0
 		'''	********************************************************************************
@@ -123,7 +123,7 @@ class printposts(threading.Thread):
 		replyString += "<hr/>"
 		replyString += "<sub> I'm a bot, beep boop | <a href='https://steemit.com/steemit/@miserableoracle/welcoming-the-sneakpeek-bot' target='_blank'>Here's my Introduction</a> | Inspired By <a href='https://www.reddit.com/user/sneakpeekbot/' target='_blank'>Reddit SneakPeekBot</a> | Recreated By @miserableoracle"
 	
-		if (self.comment["author"] == debug_acc) and (flag == 0): #(flag == 0):
+		if (flag == 0):#(self.comment["author"] == debug_acc) and (flag == 0): 
 			print("[Normal Process] REPLY IN PROGRESS")
 			self.comment.reply(replyString, '', author=author_m, meta=None)
 		elif (flag == 1):
