@@ -49,39 +49,13 @@ blck = Blockchain()
 # ************* FUNCTIONS **************
 # **************************************
 
-#If you wannt to manually build the transaction and broadcast onto the network, use below function.
-'''
-def TransBuilder(comment, author, cbody):
-	#try:
-		tx = TransactionBuilder()
-		tx.appendOps(Comment(
-			**{"parent_author": comment["author"],
-				"parent_permlink": comment["permlink"],
-				"author": author,
-				"permlink": comment["permlink"],
-				"title": "",
-				"body": cbody,
-				"json_metadata": ""}
-		))
-		tx.appendWif(wif)
-		tx.appendSigner("reminderbot", "posting")
-		tx = tx.sign()
-		tx = TransactionBuilder.json(tx)
-		tx.broadcast()
-	#except:
-	#	print("[Exception] Unexpected error (Sleep for 3) : ", sys.exc_info()[0])
-	#	return False
-	#else:
-		return True
-'''	
-
 #This function will get all the posts from given category(tag) and print top 3 posts from "created", "hot", and "trending" sections of that category(tag)
 #Argument: Category str
 
 class printposts(threading.Thread):
-	def __init__(self, cat, comment_t):
+	def __init__(self, cat_p, comment_t):
 		threading.Thread.__init__(self)
-		self.cat_c = cat
+		self.cat_c = cat_p
 		self.comment = comment_t
 		flag = 0
 		global steem
@@ -111,8 +85,8 @@ class printposts(threading.Thread):
 		initStr = random.randint(0, 6)
 		replyString += "<center><em>"+strList[initStr]+"</em></center>"
 	
-		print("[Normal Process] Received Category(Tag): %s" % cat)
-		replyString += "<h3> Hello @"+self.comment['author']+" | Here's a sneak peek of #"+self.cat_c+" posts</h3>"
+		print("[Normal Process] Received Category(Tag): %s" % self.cat_c)
+		replyString += "<h3> Hello @"+self.comment['author']+" | You have summoned me, I shall serve your requirements. | Here's a sneak peek of #"+self.cat_c+" posts</h3>"
 
 		i = 0
 		'''	********************************************************************************
@@ -163,9 +137,9 @@ class printposts(threading.Thread):
 			flag = 1
 		
 		replyString += "<hr/>"
-		replyString += "<sub> I'm a bot, beep boop | Inspired By <a href='https://www.reddit.com/user/sneakpeekbot/' target='_blank'>Reddit SneakPeekBot</a> | Recreated By @miserableoracle"
+		replyString += "<sub> I'm a bot, beep boop | <a href='https://steemit.com/steemit/@miserableoracle/welcoming-the-sneakpeek-bot' target='_blank'>Here's my Introduction</a> | Inspired By <a href='https://www.reddit.com/user/sneakpeekbot/' target='_blank'>Reddit SneakPeekBot</a> | Recreated By @miserableoracle"
 	
-		if (self.comment["author"] == debug_acc) and (flag == 0):
+		if (flag == 0):#(self.comment["author"] == debug_acc) and (flag == 0): 
 			print("[Normal Process] REPLY IN PROGRESS")
 			self.comment.reply(replyString, '', author=author_m, meta=None)
 		elif (flag == 1):
@@ -174,7 +148,7 @@ class printposts(threading.Thread):
 			print("[Normal Process] Out of testing phase")
 
 		print("[Normal Process] PROCESS FINISH TIME: %s" % (time.time() - start_time))
-		#os._exit(0)
+		
 # **************************************
 # ************ MAIN FUNC ***************
 # **************************************
@@ -187,7 +161,7 @@ if __name__ == "__main__":
 			for comment in steem.stream_comments():
 				#Testing phase only print
 				#print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
-				match = re.search(r'(?i)(#)(\w+)[\w-]+', comment["body"])
+				match = re.search(r'(?i)(!*)sneakpeek(!*) (?i)(#)(\w+)[\w-]+', comment["body"])
 				if match is None:
 					continue
 				else:
@@ -202,7 +176,8 @@ if __name__ == "__main__":
 					
 					print("[Normal Process] MATCHED: https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
 					temp = match.group(0)
-					cat = temp.replace("#", "")
+					temp2 = temp.split() #match will consist of (!*)sneakpeek(!*) as group 0 and #category as group 1
+					cat = temp2[1].replace("#", "")
 					if not cat:
 						continue
 					else:
