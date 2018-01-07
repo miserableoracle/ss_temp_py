@@ -20,11 +20,10 @@ import sys, traceback, logging
 # **************************************
 
 publicnodes = [
-	'https://api.steemit.com',
 	'https://steemd.steemitstage.com',
+	'https://api.steemit.com',
 	'https://gtg.steem.house:8090',
 	'https://seed.bitcoiner.me',
-	'https://gtg.steem.house:8090',
 	'https://steemd.privex.io',
 	'https://steemd.pevo.science',
 	'https://rpc.steemliberator.com'
@@ -160,7 +159,7 @@ if __name__ == "__main__":
 		try: 
 			for comment in steem.stream_comments():
 				#Testing phase only print
-				print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
+				#print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
 				match = re.search(r'(?i)(!*)sneakpeek(!*) (?i)(#)(\w+)[\w-]+', comment["body"])
 				if match is None:
 					continue
