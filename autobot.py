@@ -16,6 +16,21 @@ import os
 import sys, traceback, logging
 
 # **************************************
+# ******** ACTIVE NODES LIST ***********
+# **************************************
+
+publicnodes = [
+	'https://api.steemit.com',
+	'https://steemd.steemitstage.com',
+	'https://gtg.steem.house:8090',
+	'https://seed.bitcoiner.me',
+	'https://gtg.steem.house:8090',
+	'https://steemd.privex.io',
+	'https://steemd.pevo.science',
+	'https://rpc.steemliberator.com'
+]
+
+# **************************************
 # ****** Globals + ENV variables *******
 # **************************************
 
@@ -23,7 +38,7 @@ steemPostingKey = os.environ.get('PostKey')
 author_m = os.environ.get('Author')
 #steem = Steem(wif=steemPostingKey)
 #steem = Steem(wif="5K1YAMfF8PfLmoYpFzPGLqVjgqVrYEhVXSV5s1iERDUopi33Jiv")
-steem = Steem(keys = steemPostingKey)
+steem = Steem(publicnodes, keys = steemPostingKey)
 # for debugging with single poster on steemit
 debug_acc = os.environ.get('DebugAuthor')
 #replyString = ""
