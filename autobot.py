@@ -160,7 +160,7 @@ if __name__ == "__main__":
 		try: 
 			for comment in steem.stream_comments():
 				#Testing phase only print
-				#print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
+				print("[All Trace] NEED TO CHECK : https://steemit.com/@%s/%s" % (comment["author"], comment["permlink"]))
 				match = re.search(r'(?i)(!*)sneakpeek(!*) (?i)(#)(\w+)[\w-]+', comment["body"])
 				if match is None:
 					continue
